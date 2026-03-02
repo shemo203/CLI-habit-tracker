@@ -19,3 +19,16 @@ def add_habit(con: sqlite3.Connection, habit_name: str) -> None:
     cur.execute("INSERT INTO habits (habit) VALUES (?)", (habit_name,)) #Question mark - 
     con.commit()
 
+def get_habits(con: sqlite3.Connection):
+    cur = con.cursor()
+    query = "SELECT habit, COUNT(*) FROM habits GROUP BY habit"
+    rows = cur.execute(query).fetchall()
+    
+    for row in rows:
+        # row[0] is the name, row[1] is the count
+        print(f"Habit: {row[0]} | Total Completions: {row[1]}")
+
+    return rows
+
+  
+
